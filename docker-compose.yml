@@ -1,0 +1,20 @@
+version: "3.9"
+
+services:
+  morpheus:
+    build: .
+    container_name: morpheus-redteam
+    ports:
+      - "8003:8003"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - TARGET_MODEL=gpt-4
+      - PROBES_PER_CATEGORY=10
+      - MAX_CONCURRENT=5
+    volumes:
+      - audit_reports:/app/reports
+    restart: unless-stopped
+
+volumes:
+  audit_reports:
+    driver: local
